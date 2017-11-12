@@ -7,26 +7,26 @@
 
 /**
  * SongWriter theme variables.
- *  
-*/    
+ *
+*/
 $songwriter_themename = "SongWriter";			//Theme Name
 $songwriter_themever = "1.0.5";						//Theme version
-$songwriter_shortname = "songwriter";			//Shortname 
+$songwriter_shortname = "songwriter";			//Shortname
 $songwriter_manualurl = get_template_directory_uri() . '/docs/documentation.html';	//Manual Url
 // Set path to SongWriter Framework and theme specific functions
 $songwriter_be_path = get_template_directory() . '/functions/be/';									//BackEnd Path
-$songwriter_fe_path = get_template_directory() . '/functions/fe/';									//FrontEnd Path 
+$songwriter_fe_path = get_template_directory() . '/functions/fe/';									//FrontEnd Path
 $songwriter_be_pathimages = get_template_directory_uri() . '/functions/be/images';		//BackEnd Path
 $songwriter_fe_pathimages = get_template_directory_uri() . '';	//FrontEnd Path
 //Include Framework [BE] 
-require_once ($songwriter_be_path . 'fw-options.php');	 	 // Framework Init  
+require_once ($songwriter_be_path . 'fw-options.php');	 	 // Framework Init
 // Include Theme specific functionality [FE] 
 require_once ($songwriter_fe_path . 'headerdata.php');		 // Include css and js
 require_once ($songwriter_fe_path . 'library.php');	       // Include library, functions
 
 /**
  * SongWriter theme basic setup.
- *  
+ *
 */
 function songwriter_setup() {
 	// Makes SongWriter available for translation.
@@ -34,15 +34,15 @@ function songwriter_setup() {
   // This theme styles the visual editor to resemble the theme style.
   $songwriter_font_url = add_query_arg( 'family', 'Oswald', "//fonts.googleapis.com/css" );
   add_editor_style( array( 'editor-style.css', $songwriter_font_url ) );
-	// Adds RSS feed links to <head> for posts and comments.  
+	// Adds RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
 	// This theme supports custom background color and image.
 	$defaults = array(
-	'default-color' => '', 
+	'default-color' => '',
   'default-image' => '',
 	'wp-head-callback' => '_custom_background_cb',
 	'admin-head-callback' => '',
-	'admin-preview-callback' => '' );  
+	'admin-preview-callback' => '' );
   add_theme_support( 'custom-background', $defaults );
 	// This theme supports post thumbnails.
 	add_theme_support( 'post-thumbnails' );
@@ -78,18 +78,21 @@ function songwriter_scripts_styles() {
   if ( !is_page_template('template-landing-page.php') ) {
   wp_enqueue_script( 'songwriter-menubox', get_template_directory_uri() . '/js/menubox.js', array(), '1.0', true ); }
   wp_enqueue_script( 'songwriter-selectnav', get_template_directory_uri() . '/js/selectnav.js', array(), '0.1', true );
-  wp_enqueue_script( 'songwriter-responsive', get_template_directory_uri() . '/js/responsive.js', array(), '1.0', true );   
+  wp_enqueue_script( 'songwriter-responsive', get_template_directory_uri() . '/js/responsive.js', array(), '1.0', true );
 	// Loads CSS
   wp_enqueue_style( 'songwriter-elegantfont', get_template_directory_uri() . '/css/elegantfont.css' );
 	wp_enqueue_style( 'songwriter-style', get_stylesheet_uri() );
-  wp_enqueue_style( 'songwriter-google-font-default', '//fonts.googleapis.com/css?family=Oswald&amp;subset=latin,latin-ext' );
+	if(!defined('DISABLE_EXTERNAL_FONTS') || !DISABLE_EXTERNAL_FONTS) {
+          wp_enqueue_style( 'songwriter-google-font-default', '//fonts.googleapis.com/css?family=Oswald&amp;subset=latin,latin-ext' );
+    }
+
   if ( class_exists( 'woocommerce' ) ) { wp_enqueue_style( 'songwriter-woocommerce-custom', get_template_directory_uri() . '/css/woocommerce-custom.css' ); }
 }
 add_action( 'wp_enqueue_scripts', 'songwriter_scripts_styles' );
 
 /**
  * Backwards compatibility for older WordPress versions which do not support the Title Tag feature.
- *  
+ *
 */
 if ( ! function_exists( '_wp_render_title_tag' ) ) {
 function songwriter_wp_title( $title, $sep ) {
@@ -109,7 +112,7 @@ add_filter( 'wp_title', 'songwriter_wp_title', 10, 2 );
  *
  */
 function songwriter_register_my_menu() {
-  register_nav_menu( 'main-navigation', __( 'Main Header Menu', 'songwriter' ) ); 
+  register_nav_menu( 'main-navigation', __( 'Main Header Menu', 'songwriter' ) );
 }
 add_action( 'after_setup_theme', 'songwriter_register_my_menu' );
 
@@ -177,7 +180,7 @@ add_filter( 'excerpt_length', 'songwriter_custom_excerpt_length', 20 );
 function songwriter_new_excerpt_more( $more ) {
 global $post;
 return '...<br /><a class="read-more-button" href="'. esc_url( get_permalink($post->ID) ) . '">' . __( 'Read more', 'songwriter' ) . '</a>';}
-add_filter( 'excerpt_more', 'songwriter_new_excerpt_more' ); 
+add_filter( 'excerpt_more', 'songwriter_new_excerpt_more' );
 
 if ( ! function_exists( 'songwriter_content_nav' ) ) :
 /**
@@ -228,7 +231,7 @@ $songwriter_next_post = get_adjacent_post( false, "", false ); ?>
 <?php } ?>
    </div>
 </div>
-<?php } 
+<?php }
 
 if ( ! function_exists( 'songwriter_comment' ) ) :
 /**
@@ -300,24 +303,24 @@ function songwriter_filter_menu_class( $objects, $args ) {
             $top_ids[$i] = $object;
             continue;
         }
- 
+
         if ( ! in_array( $object->menu_item_parent, $ids ) ) {
             $objects[$i]->classes[] = 'first-menu-item';
             $ids[]          = $object->menu_item_parent;
         }
- 
+
         if ( in_array( 'first-menu-item', $object->classes ) )
             continue;
- 
+
         $parent_ids[$i] = $object->menu_item_parent;
     }
- 
+
     $sanitized_parent_ids = array_unique( array_reverse( $parent_ids, true ) );
- 
+
     foreach ( $sanitized_parent_ids as $i => $id )
         $objects[$i]->classes[] = 'last-menu-item';
- 
-    return $objects; 
+
+    return $objects;
 }
 
 /**
@@ -338,10 +341,10 @@ function songwriter_pie() { ?>
 
 /**
  * Include the TGM_Plugin_Activation class.
- *  
+ *
 */
 if ( current_user_can ( 'install_plugins' ) ) {
-require_once get_template_directory() . '/class-tgm-plugin-activation.php'; 
+require_once get_template_directory() . '/class-tgm-plugin-activation.php';
 add_action( 'tgmpa_register', 'songwriter_my_theme_register_required_plugins' );
 
 function songwriter_my_theme_register_required_plugins() {
@@ -352,8 +355,8 @@ $plugins = array(
 			'slug'     => 'breadcrumb-navxt',
 			'required' => false,
 		),
-); 
- 
+);
+
 $config = array(
 		'domain'       => 'songwriter',
     'menu'         => 'install-my-theme-plugins',
@@ -371,18 +374,18 @@ $config = array(
 		'notice_cannot_activate' => __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', 'songwriter' ),
 		'return'                 => __( 'Return to Recommended Plugins Installer', 'songwriter' ),
 ),
-); 
-songwriter_tgmpa( $plugins, $config ); 
+);
+songwriter_tgmpa( $plugins, $config );
 }}
 
 /**
  * WooCommerce custom template modifications.
- *  
+ *
 */
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 function songwriter_woocommerce_modifications() {
-  remove_action ( 'woocommerce_single_product_summary', 'woocommerce_template_single_title', 5 ); 
-}  
+  remove_action ( 'woocommerce_single_product_summary', 'woocommerce_template_single_title', 5 );
+}
 add_action ( 'init', 'songwriter_woocommerce_modifications' );
 add_filter ( 'woocommerce_show_page_title', '__return_false' );
 } ?>
