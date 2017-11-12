@@ -1,0 +1,51 @@
+Changelog Legend:
+
+[+] = Added
+[*] = Changed
+[^] = Moved
+[=] = No Changes
+[x] = Deleted
+[!] = Bugs
+
+----
+
+(10/02/2015) - Update - Version 1.0.5
+ 
+[+] Added Greek translation.
+[+] Added support for the "pingback" link in <head> section.
+[*] Updated 404 Page and No Search Results templates (added search form).
+
+----
+
+(14/01/2015) - Update - Version 1.0.4
+
+[+] Added support for the Title Tag feature.
+[*] Updated paginate_links() arguments (added "add_args").
+
+----
+
+(31/12/2014) - Update - Version 1.0.3
+
+[+] Added Italian translation.
+[*] Updated the "viewport" meta tag.
+[*] Updated Placeholders.js script to the version 3.0.2.
+
+----
+
+(18/12/2014) - Update - Version 1.0.2
+
+[+] Added Romanian translation.
+[+] Mentioned the Text Domain in style.css.
+[*] Set the priority of excerpt_length filter from 999 to 20.
+
+----
+
+(09/12/2014) - Update - Version 1.0.1
+
+[+] Added Dutch translation.
+[*] Updated German translation.
+[*] Updated including of the TGM_Plugin_Activation class (only the users who are allowed to install plugins can see it now).
+
+----
+
+(07/10/2014) - The initial public release. - Version 1.0.0
